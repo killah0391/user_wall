@@ -1,0 +1,34 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display a user wall with Bootstrap styling.
+ * Modified to use Match Chat's "send" button inside textarea.
+ *
+ * Available variables:
+ * - wall_posts: A list of wall posts.
+ * - post_form: The form for adding a new post.
+ * - user_id: The user ID of the wall owner.
+ *
+ * @see template_preprocess_user_wall()
+ *
+ * @ingroup themeable
+ */
+#}
+<div id="user-wall-{{ user_id }}">
+  {% if post_form %}
+    <div class="card shadow-sm mb-4">
+      <div class="card-body">{{ post_form }}</div>
+    </div>
+  {% endif %}
+
+{% if wall_posts is not empty %}
+	<div class="wall-posts">
+		{% for post in wall_posts %}
+			{{ post }}
+		{% endfor %}
+	{% else %}
+		<div class="card text-center p-2">
+			{{username}}
+			has no posts yet.
+		</div> {% endif %}
+</div>

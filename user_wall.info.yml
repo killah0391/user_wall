@@ -1,0 +1,6 @@
+name: 'User Wall'
+type: module
+description: 'Allows users to post messages and images on their profile, which other users can like and comment on.'
+core_version_requirement: ^10
+package: 'Custom'
+

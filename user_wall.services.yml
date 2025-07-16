@@ -1,0 +1,8 @@
+services:
+  user_wall.lazy_builder:
+    class: Drupal\user_wall\LazyBuilder
+    arguments: ['@database', '@entity_type.manager', '@form_builder', '@current_user', '@user_wall.post_renderer']
+  user_wall.post_renderer:
+    class: Drupal\user_wall\PostRenderer
+    arguments: ['@database', '@entity_type.manager', '@form_builder', '@current_user', '@renderer']
+

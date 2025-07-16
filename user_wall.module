@@ -1,0 +1,191 @@
+<?php
+
+/**
+ * @file
+ * Contains user_wall.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\user\Entity\User;
+
+/**
+ * Implements hook_help().
+ */
+function user_wall_help($route_name, RouteMatchInterface $route_match)
+{
+  switch ($route_name) {
+    // Main module help for the user_wall module.
+    case 'help.page.user_wall':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Allows users to post messages and images on their profile, which other users can like and comment on.') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function user_wall_theme()
+{
+  return [
+    'user_wall' => [
+      'variables' => ['wall_posts' => [], 'post_form' => [], 'user_id' => NULL, 'username' => NULL],
+    ],
+    'user_wall_post' => [
+      'variables' => ['post' => NULL, 'like_link' => NULL, 'like_text' => '', 'comments' => [], 'comment_form' => []],
+    ],
+  ];
+}
+
+
+/**
+ * Implements hook_user_view().
+ */
+function user_wall_user_view(array &$build, \Drupal\Core\Entity\EntityInterface $account, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode)
+{
+  if ($view_mode == 'full') {
+    $build['user_wall'] = [
+      '#type' => 'container',
+      '#attributes' => ['id' => 'user-wall-wrapper'],
+    ];
+    $build['user_wall']['content'] = [
+      '#lazy_builder' => [
+        'user_wall.lazy_builder:buildWall',
+        [$account->id()],
+      ],
+      '#create_placeholder' => TRUE,
+    ];
+  }
+}
+
+/**
+ * Implements hook_schema().
+ */
+function user_wall_schema()
+{
+  $schema['user_wall_posts'] = [
+    'description' => 'Stores wall posts.',
+    'fields' => [
+      'pid' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+      'message' => [
+        'type' => 'text',
+        'not null' => FALSE,
+      ],
+      'fid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => FALSE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['pid'],
+  ];
+
+  $schema['user_wall_likes'] = [
+    'description' => 'Stores likes for wall posts.',
+    'fields' => [
+      'lid' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'pid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+    ],
+    'primary key' => ['lid'],
+    'unique keys' => [
+      'post_user' => ['pid', 'uid'],
+    ],
+  ];
+
+  $schema['user_wall_comments'] = [
+    'description' => 'Stores comments for wall posts.',
+    'fields' => [
+      'cid' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'pid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'uid' => [
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ],
+      'comment' => [
+        'type' => 'text',
+        'not null' => TRUE,
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ],
+    ],
+    'primary key' => ['cid'],
+  ];
+
+  return $schema;
+}
+
+function user_wall_preprocess_image_widget(&$variables)
+{
+  $element = $variables['element'];
+
+  // Only act if we have uploaded files.
+  if (!empty($element['#files'])) {
+
+    // Create a container element to hold all the preview images.
+    // This keeps them neatly grouped.
+    $variables['data']['previews'] = [
+      '#type' => 'container',
+      '#attributes' => ['class' => ['multi-preview-container']],
+      '#weight' => -10, // Make it appear before other elements like the upload button.
+    ];
+
+    // Loop through each uploaded file.
+    foreach ($element['#files'] as $file) {
+      if (!$file) {
+        continue;
+      }
+
+      $file_id = $file->id();
+
+      // Build a render array for this specific image.
+      $variables['data']['previews'][$file_id] = [
+        '#theme' => 'image_style',
+        '#style_name' => $element['#preview_image_style'],
+        '#uri' => $file->getFileUri(),
+      ];
+    }
+  }
+}

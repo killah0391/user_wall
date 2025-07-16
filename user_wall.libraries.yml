@@ -1,0 +1,12 @@
+user_wall:
+  version: 1.x
+  css:
+    theme:
+      css/user_wall.css: {}
+  js:
+    js/user_wall.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupal.ajax
+    - core/once
