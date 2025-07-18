@@ -32,7 +32,7 @@ function user_wall_theme()
 {
   return [
     'user_wall' => [
-      'variables' => ['wall_posts' => [], 'post_form' => [], 'user_id' => NULL, 'username' => NULL],
+      'variables' => ['wall_posts' => [], 'post_form' => [], 'user_id' => NULL, 'username' => NULL, 'posts_by_date' => NULL,],
     ],
     'user_wall_post' => [
       'variables' => ['post' => NULL, 'like_link' => NULL, 'like_text' => '', 'comments' => [], 'comment_form' => []],
@@ -47,10 +47,10 @@ function user_wall_theme()
 function user_wall_user_view(array &$build, \Drupal\Core\Entity\EntityInterface $account, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode)
 {
   if ($view_mode == 'full') {
-    $build['user_wall'] = [
-      '#type' => 'container',
-      '#attributes' => ['id' => 'user-wall-wrapper'],
-    ];
+    // $build['user_wall'] = [
+    //   '#type' => 'container',
+    //   '#attributes' => ['id' => 'user-wall-wrapper'],
+    // ];
     $build['user_wall']['content'] = [
       '#lazy_builder' => [
         'user_wall.lazy_builder:buildWall',
@@ -79,6 +79,10 @@ function user_wall_schema()
         'unsigned' => TRUE,
         'not null' => TRUE,
         'default' => 0,
+      ],
+      'text' => [
+        'type' => 'text',
+        'not null' => FALSE,
       ],
       'message' => [
         'type' => 'text',
@@ -168,7 +172,7 @@ function user_wall_preprocess_image_widget(&$variables)
     // This keeps them neatly grouped.
     $variables['data']['previews'] = [
       '#type' => 'container',
-      '#attributes' => ['class' => ['multi-preview-container']],
+      '#attributes' => ['class' => ['multi-preview-container', 'mb-3']],
       '#weight' => -10, // Make it appear before other elements like the upload button.
     ];
 
@@ -182,8 +186,8 @@ function user_wall_preprocess_image_widget(&$variables)
 
       // Build a render array for this specific image.
       $variables['data']['previews'][$file_id] = [
-        '#theme' => 'image_style',
-        '#style_name' => $element['#preview_image_style'],
+        '#theme' => 'responsive_image',
+        '#responsive_image_style_id' => 'preview',
         '#uri' => $file->getFileUri(),
       ];
     }

@@ -1,5 +1,5 @@
 user_wall.post.like:
-  path: '/user-wall/post/{post_id}/like'
+  path: '/user-wall/post/{user_wall_post}/like'
   defaults:
     _controller: '\Drupal\user_wall\Controller\UserWallController::likePost'
     _title: 'Like Post'
@@ -7,7 +7,7 @@ user_wall.post.like:
     _permission: 'access content'
 
 user_wall.comment.add:
-  path: '/user-wall/post/{post_id}/comment'
+  path: '/user-wall/post/{user_wall_post}/comment'
   defaults:
     _controller: '\Drupal\user_wall\Controller\UserWallController::addComment'
     _title: 'Add Comment'

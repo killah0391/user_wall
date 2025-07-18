@@ -1,44 +1,74 @@
 {#
 /**
  * @file
- * Default theme implementation to display a single wall post with Bootstrap styling.
+ * Theme override for a single user wall post.
  *
  * Available variables:
- * - post: The post object.
- * - like_link: A renderable array for the 'Like/Unlike' link.
- * - like_text: The translated, pluralized text for the like count (e.g., "1 like", "5 likes").
- * - comments: A list of comments.
- * - comment_form: The form for adding a new comment.
- *
- * @see \Drupal\user_wall\PostRenderer::buildPost()
- *
- * @ingroup themeable
+ * - post: An object containing post data.
+ * - edit_link: A render array for the edit link.
+ * - like_link: A render array for the like link.
+ * - comments: An array of comments.
+ * - comment_form: A render array for the comment form.
  */
 #}
 <div class="card shadow-sm mb-3" id="wall-post-{{ post.pid }}">
-<div class="card-header p-3">
-<div
-	class="d-flex align-items-start">
-	{# You could add the author's profile picture here for a better look #}
-	<div class="flex-grow-1 text-end p-0 card-text">
-		<small class="text-muted">
-			<i class="bi bi-clock"></i>
-			{{ post.created|format_date('custom', 'd.m.Y H:i') }}</small>
-	</div>
-</div>
-</div>
-  <div class="card-body">
-
-
-		{% if post.message %}
-			<p class="card-text">{{ post.message }}</p>
-		{% endif %}
-
-		{% if post.image %}
-			<div class="post-image mb-3">
-				{{ post.image }}
+	<div class="card-header p-3">
+		<div class="d-flex align-items-start">
+			{% if post.title %}
+				<h6>{{ post.title }}</h6>
+			{% endif %}
+			<div class="flex-grow-1 text-end p-0 card-text">
+				<small class="text-muted">
+					<i class="bi bi-clock"></i>
+					{{ post.created|format_date('custom', 'H:i') }}
+				</small>
 			</div>
-		{% endif %}
+		</div>
+	</div>
+
+	<div
+		class="card-body">
+		{# --- START: Grid Layout --- #}
+		<div class="row">
+
+			{# --- Column 1: Text --- #}
+			{# This column takes half the width on medium screens and up if there are images, otherwise full width. #}
+<div class="{{ post.images|length > 0 ? 'col-md-6' : 'col-12' }} {{ post.message ? 'align-self-center' : ''}}">
+	{% if post.message %}
+
+					<p class="card-text">{{ post.message }}</p>
+				{% endif %}
+			</div>
+
+			{# --- Column 2: Images --- #}
+			{# This column takes half the width on medium screens and up if there is text, otherwise full width. #}
+			<div class="{{ post.message ? 'col-md-6' : 'col-12' }} {{ post.message ? 'align-self-center' : ''}}">
+				{% if post.images|length > 0 %}
+					{# The 'is-stacked' class will be added if there is more than one image. #}
+					<div class="post-images-gallery {{ post.images|length > 1 ? 'is-stacked' : '' }}">
+						<div
+							class="image-stack-container js-zoom-trigger">
+							{# The first image to be displayed in the stack. #}
+							{{ post.images|first }}
+
+							{# The rest of the images, hidden but accessible to JavaScript. #}
+							<div class="visually-hidden-gallery-images">
+								{% for image in post.images|slice(1) %}
+									{{ image }}
+								{% endfor %}
+							</div>
+
+							{% if post.images|length > 1 %}
+								<div class="image-count-overlay">
+									<span>+{{ post.images|length }}</span>
+								</div>
+							{% endif %}
+						</div>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+		{# --- END: Grid Layout --- #}
 
 		<hr>
 
@@ -46,15 +76,16 @@
 			{{ like_link }}
 			<span class="ms-1 text-muted">{{ like_text }}</span>
 		</div>
+
 		<div class="post-comments">
 			{% if comments %}
 				<ul class="list-group list-group-flush">
 					{% for comment in comments %}
-						<li class="list-group-item px-0">
+						<li class="list-group-item p-3 rounded-5">
 							<div class="d-flex w-100 justify-content-between">
 								<h6 class="mb-1 fw-bold">{{ comment.author }}</h6>
 							</div>
-							<p class="mb-1">{{ comment.comment }}</p>
+							<p class="mb-1 text-muted">{{ comment.comment }}</p>
 						</li>
 					{% endfor %}
 				</ul>

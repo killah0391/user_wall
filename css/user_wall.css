@@ -1,5 +1,5 @@
 .user-wall-input-container textarea {
-  padding-right: 100px;
+  padding-right: 85px;
   resize: none;
 }
 
@@ -29,7 +29,7 @@
   font-size: 1.3rem;
     line-height: 1;
     position: absolute;
-    top: 50px;
+    top: 95px;
       right: 90px;
 }
 
@@ -58,14 +58,18 @@
 .user-wall-input-container .form-actions .send-button {
       line-height: 1;
         position: absolute;
-            top: 43px;
-              right: 30px;
+            top: 87px;
+              right: 37px;
 }
 
 .user-wall-input-container .form-actions .send-button::before {
   font-family: 'bootstrap-icons';
   content: "\F6B9";
   font-size: 1.3rem;
+}
+
+.user-wall-input-container .status-messages-fallback-container {
+  margin-top: 20px;
 }
 
 /* .user-wall-input-container .form-switch {
@@ -79,21 +83,6 @@
 } */
 
 /* Style the image preview to show it's clickable */
-.js-form-managed-file .js-form-item img {
-  cursor: pointer;
-  border: 4px solid transparent;
-  border-radius: 8px;
-  transition: border-color 0.2s ease-in-out;
-}
-
-/* Add a prominent blue border when the image is selected */
-.js-form-managed-file .js-form-item img.is-selected {
-  border-color: #0d6efd;
-  /* A standard blue, change as needed */
-  box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
-}
-
-/* Style the image preview to show it's clickable */
 .image-widget .image-preview img {
   cursor: pointer;
   border: 4px solid transparent;
@@ -103,7 +92,292 @@
 
 /* Add a prominent blue border when the image is selected */
 .image-widget .image-preview img.is-selected {
-  border-color: #0d6efd;
+  border-color: indianred;
   /* A standard blue, change as needed */
-  box-shadow: 0 0 10px rgba(13, 110, 253, 0.5);
+  box-shadow: 0 0 10px rgb(194, 53, 53);
+}
+
+.image-widget {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.image-widget .image-widget-data .form-submit {
+  position: absolute;
+    width: 180px;
+    top: 165px;
+    left: 200px;
+}
+
+@media all and (min-width: 1200px) and (max-width: 1400px) {
+  .image-widget .image-widget-data .form-submit {
+    position: absolute;
+    top: 105px;
+    right: 0;
+    left: auto;
+    font-size: 0;
+    width: 50px;
+  }
+}
+
+@media all and (min-width: 360px) and (max-width: 1200px) {
+  .image-widget .image-widget-data .form-submit {
+    position: absolute;
+      top: 50px;
+      right: 0;
+      left:auto;
+      font-size: 0;
+      width: 50px;
+  }
+}
+
+@media all and (min-width: 1400px) {
+  .image-widget .image-widget-data .form-submit {
+    position: absolute;
+      width: 180px;
+      top: 165px;
+      left: auto;
+      right: 0;
+  }
+}
+
+
+
+.image-widget .image-widget-data .form-submit::before {
+  background-image: none;
+  content: '\F78B';
+  font-family: 'bootstrap-icons';
+  line-height: 1;
+  font-size: 1rem;
+}
+
+.user-wall-comment-form {
+  position: relative;
+}
+
+.user-wall-comment-form .form-textarea-wrapper textarea {
+  resize: none;
+  padding-right: 70px;
+}
+
+.user-wall-comment-form .form-submit {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 0;
+  /* background: none;
+  border: none; */
+}
+
+.user-wall-comment-form .form-submit::before {
+  font-family: 'bootstrap-icons';
+  content: "\F6B9";
+  font-size: 1rem;
+  background-image: none;
+  /* color: indianred; */
+}
+
+/* The main timeline container */
+.timeline {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* The vertical line running down the middle */
+.timeline::after {
+  content: '';
+  position: absolute;
+  width: 4px;
+  background-color: rgba(205, 92, 92, 0.26);
+  /* A light grey color */
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin-left: -2px;
+  /* Center the line */
+  z-index: 1;
+  margin-bottom: 25px;
+  margin-top: 55px;
+}
+
+/* Container for each post card */
+.timeline-item {
+  padding: 10px 40px 10px 0;
+  position: relative;
+  z-index: 2;
+}
+
+/* The circle on the timeline */
+.timeline-item::after {
+  content: '\F772';
+
+  font-family: 'bootstrap-icons';
+
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  font-size: 1.5rem;
+  right: -7px;
+  top: 25px;
+  border-radius: 50%;
+  z-index: 3;
+}
+
+/* Position odd-numbered items on the left */
+.timeline-item:nth-child(odd) {
+  left: 0;
+}
+
+/* Position even-numbered items on the right */
+.timeline-item:nth-child(even) {
+  left: 0;
+}
+
+/* Adjust the circle position for even items */
+.timeline-item:nth-child(even)::after {
+  right: -7px;
+}
+
+/* Responsive adjustments for smaller screens */
+@media screen and (max-width: 768px) {
+
+  /* Move the timeline line to the left */
+  .timeline::after {
+    left: 20px;
+  }
+
+  /* Make all items full-width and position them on the right side of the line */
+  .timeline-item {
+    width: 100%;
+    padding-left: 50px;
+    padding-right: 15px;
+  }
+
+  .timeline-item:nth-child(odd),
+  .timeline-item:nth-child(even) {
+    left: 0;
+  }
+
+  /* Adjust circle position for all items */
+  .timeline-item::after {
+    left: 10px;
+  }
+}
+
+/* Styling für den Datums-Trenner */
+.timeline-date {
+  text-align: center;
+  position: relative;
+  z-index: 10;
+  /* Stellt sicher, dass der Text über der Linie liegt */
+  padding: 10px 0;
+}
+
+.timeline-date span {
+  background-color: indianred;
+  /* Ein neutrales Grau, passend zu Bootstrap */
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Anpassung für kleine Bildschirme, damit der Text nicht in die Linie ragt */
+@media screen and (max-width: 768px) {
+  .timeline-date {
+    text-align: left;
+    padding-left: 50px;
+    /* Gleicher Abstand wie die Timeline-Items */
+  }
+}
+
+/* Allgemeiner Container für die Bildergalerie */
+.post-images-gallery {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Der Container für den Stapel-Effekt */
+.is-stacked .image-stack-container {
+  position: relative;
+  /* Wir nutzen Grid, um Elemente übereinander zu legen */
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  /* Zeigt an, dass man klicken kann (für zukünftige Lightbox etc.) */
+  aspect-ratio: 16 / 9;
+  /* Sorgt für ein konsistentes Seitenverhältnis */
+}
+
+/* Alle Bilder und das Overlay werden in dieselbe Grid-Zelle gelegt */
+.is-stacked .image-stack-container>* {
+  grid-column: 1 / -1;
+  grid-row: 1 / -1;
+  transition: transform 0.3s ease;
+}
+
+/* Styling für das Overlay, das die Anzahl anzeigt */
+.is-stacked .image-count-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.3);
+  /* Etwas dunkler für besseren Kontrast */
+  display: flex;
+  justify-content: center;
+  z-index: 10;
+  pointer-events: none;
+  /* Klicks gehen "durch" das Overlay */
+  opacity: 0.8;
+  /* Standardmäßig unsichtbar */
+  transition: opacity 0.3s ease;
+}
+
+.is-stacked .image-count-overlay span {
+  color: white;
+  font-size: 2.5rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+  @media screen and (min-width: 992px) {
+    margin-top: 10%;
+  }
+}
+
+/* Zeige das Overlay, wenn man über den Container fährt */
+.is-stacked .image-stack-container:hover .image-count-overlay {
+  opacity: 1;
+}
+
+/* Verstecke alle Bilder außer dem ersten im Stapel */
+.is-stacked .responsive-image:not(:first-child) {
+  display: none;
+}
+
+/* Alle Bilder sollen den Container füllen, ohne sich zu verzerren */
+.post-images-gallery img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Ein kleiner Schwebe-Effekt für das oberste Bild im Stapel */
+.is-stacked .image-stack-container:hover .responsive-image:first-child {
+  transform: scale(1.05);
+}
+
+.visually-hidden-gallery-images {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
 }

@@ -20,15 +20,41 @@
       <div class="card-body">{{ post_form }}</div>
     </div>
   {% endif %}
+	{% if posts_by_date %}
+<div
+	class="timeline">
+	{# Die Schleife bleibt dieselbe #}
+<div id="user-wall-posts-list">
 
-{% if wall_posts is not empty %}
-	<div class="wall-posts">
-		{% for post in wall_posts %}
-			{{ post }}
+	{% for date_string, posts_on_date in posts_by_date %}
+		<div
+			class="timeline-date">
+			{# KORREKTUR: Verwende den 'date'-Filter, der den String 'Y-m-d' parsen kann #}
+			<span><i class="bi bi-calendar-heart"></i> {{ date_string|date('d. F Y') }}</span>
+		</div>
+
+		{% for post in posts_on_date %}
+			<div class="timeline-item">
+				{{ post }}
+			</div>
 		{% endfor %}
-	{% else %}
-		<div class="card text-center p-2">
-			{{username}}
-			has no posts yet.
-		</div> {% endif %}
+	{% endfor %}
+	</div>
+</div>
+{{kint()}}
+{% else %}
+{{kint()}}
+<div class="card shadow-sm mb-4">
+	<div class="card-body text-center">
+{% if user.account.name == username %}
+	{{'You have no posts yet.'|t}}
+{% else %}
+	{{username}}
+	{{'has no posts yet.'|t}}
+{% endif %}
+
+{% endif %}
+</div>
+</div>
+
 </div>
