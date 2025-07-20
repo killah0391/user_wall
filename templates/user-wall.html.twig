@@ -16,7 +16,7 @@
 #}
 <div id="user-wall-{{ user_id }}">
   {% if post_form %}
-    <div class="card shadow-sm mb-4">
+    <div class="card shadow-sm mb-4 bg-danger">
       <div class="card-body">{{ post_form }}</div>
     </div>
   {% endif %}
@@ -41,9 +41,9 @@
 	{% endfor %}
 	</div>
 </div>
-{{kint()}}
+
 {% else %}
-{{kint()}}
+
 <div class="card shadow-sm mb-4">
 	<div class="card-body text-center">
 {% if user.account.name == username %}

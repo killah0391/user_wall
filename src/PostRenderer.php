@@ -81,6 +81,7 @@ class PostRenderer
         $comments[] = [
           'author' => $comment_author ? $comment_author->getDisplayName() : 'Anonymous',
           'comment' => $comment->get('comment')->value,
+          'created' => $comment->get('created')->value,
         ];
       }
     }

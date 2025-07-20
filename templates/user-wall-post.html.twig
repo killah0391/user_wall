@@ -84,6 +84,10 @@
 						<li class="list-group-item p-3 rounded-5">
 							<div class="d-flex w-100 justify-content-between">
 								<h6 class="mb-1 fw-bold">{{ comment.author }}</h6>
+								<small>
+									<i class="bi bi-clock"></i>
+									{{ comment.created|format_date('custom', 'd.m.Y H:i') }}
+								</small>
 							</div>
 							<p class="mb-1 text-muted">{{ comment.comment }}</p>
 						</li>

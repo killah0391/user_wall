@@ -272,7 +272,7 @@
   position: relative;
   z-index: 10;
   /* Stellt sicher, dass der Text über der Linie liegt */
-  padding: 10px 0;
+  padding: 0 0 10px;
 }
 
 .timeline-date span {
